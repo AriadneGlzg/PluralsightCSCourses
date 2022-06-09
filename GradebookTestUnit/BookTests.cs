@@ -8,7 +8,7 @@ namespace GradebookTestUnit
     public class BookTests 
     {
         [Fact] 
-        public void Test1()
+        public void TestStatistics()
         {
             // Arrange Section
             var book = new Book("");
@@ -16,13 +16,15 @@ namespace GradebookTestUnit
             book.AddGrade(80.0);
             book.AddGrade(60.5);
             book.AddGrade(100);
-
-
             // Act Section
 
+            var result = book.GetStatistics();
 
             // Assert Section
 
+            Assert.Equal(74.6, result.Average,1);
+            Assert.Equal(58.1, result.Lowest);
+            Assert.Equal(100, result.Highest);
 
         }
     }

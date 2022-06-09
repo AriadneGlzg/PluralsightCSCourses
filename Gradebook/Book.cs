@@ -16,27 +16,47 @@ namespace Gradebook // el namespace es el mismo que el del proyecto
         //Fields (campos o propiedades)
         List<double> grades; // como estamos en una clase, todos los campos o propiedades no pueden ser declarados como var
         private string name; // como es private toda forma de acceder a este campo sera por medio de metodos definidos dentro de la clase
+        public string Name;
         public static string Description="Grade Books"; // esa es una propiedad a la que no se puede acceder con la instancia si no directo de a clase
-        
+
         //Methods (Metodos)
+        //los metodos deben ser lo mas pequeños posibles.
+        public string GetName() { 
+        return name;
+        }
         public void AddGrade(double grade) //tipo tipoRetorno nombreMetodo(){} 
         {
             grades.Add(grade);
             //todas las variables que se creen dentro de las {} existiran unicamente en ese bloque, si quisieramos que vivieran en mas partes del codigo
             // tendriamos que ponerlas tan afuera de las {} como sea necesario
         }
+        public Statistics GetStatistics()
+        {
+            var statistics = new Statistics();statistics.Lowest = double.MaxValue;statistics.Highest = double.MinValue;
+            foreach (var grade in grades)
+            {
+                statistics.Highest = Math.Max(statistics.Highest, grade);
+                statistics.Lowest = Math.Min(statistics.Lowest, grade);
+                statistics.Average += grade;
+            }
+            statistics.Average /= grades.Count;
 
+            return statistics;
+        }
+
+        // con la funcion anterior podriamos reducir y reusar codigo de la siguiente forma:
         public void ShowStatistics()
         {
-            var statistics = new double[3];
+            var statistics = new double[] {double.MaxValue,double.MinValue,0};
             foreach (var grade in grades)
-            { 
-                statistics[0]=Math.Min(grades[0], grade);
-                statistics[1]=Math.Max(grades[1], grade);
+            {
+                statistics[0] = Math.Min(statistics[0], grade);
+                statistics[1] = Math.Max(statistics[1], grade);
                 statistics[2] += grade;
             }
-            Console.WriteLine($"{name}'s {Book.Description} Stats \n •Lowest Grade: {statistics[0]:N2} \n •Highest Grade: {statistics[1]:N2} \n •Average Grade: {(statistics[2]/statistics.Length):N2}");
+            Console.WriteLine($"{name}'s {Book.Description} Stats \n •Lowest Grade: {statistics[0]:N2} \n •Highest Grade: {statistics[1]:N2} \n •Average Grade: {(statistics[2] / statistics.Length):N2}");
         }
+        
 
         // Constructor 
         /*el constructor es lo que construye al objeto, uno puede hacer su propio "constructor de clase" de tal modo que se puede tener total control de 
@@ -47,6 +67,7 @@ namespace Gradebook // el namespace es el mismo que el del proyecto
         {
             grades = new List<double>();
             this.name = name; // this hace referencia a "name" este name de la clase no del costructor "this" sirve para acceder a un miembro de this class de esta clase
+            this.Name = name;    
         }
 
     }

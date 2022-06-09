@@ -16,8 +16,14 @@ namespace Gradebook
             book.AddGrade(78.5);
             book.AddGrade(80.1);
             book.AddGrade(99.5);
-            book.ShowStatistics();
+            //book.ShowStatistics(); 
+            var statistics = book.GetStatistics();// sustituimos la linea de arriba por esta
+            //agregamos la linea de abajo para seguir mostrando en consola las estadisticas
+            Console.WriteLine($"{book.GetName()}'s {Book.Description} Stats \n ♥ Lowest Grade: {statistics.Lowest:N1} \n ♥ Highest Grade: {statistics.Highest:N1} \n ♥ Average Grade: {statistics.Average:N2}");
 
+            /* a todos los cambios anteriores se les llama refactoring, esto sucede cuando tus pruebas unitarias te obligan
+               a cambiar el codigo, de tal modo que mejore el diseño, eso es a lo que se le llama refactorizar       
+            */  
 
             //Console.WriteLine($"{book.Description}"); hay un error en el statement porque Description es un campo estatico por lo tanto no se debe acceder a el por medio de la instancia si no de la clase Book.Description
 

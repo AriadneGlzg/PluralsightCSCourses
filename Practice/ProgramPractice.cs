@@ -106,3 +106,23 @@ namespace Practice // el namespace es una keyword que se usa para declarar un sc
  -NullReferenceException: indica que hay algo dañado en tu codigo, algun error de logica
  
  */
+
+/* Reference Type vs Values Type 
+Esto de los reference y values tiene que ver con como se almacenan estos en memoria.
+  
+Reference Type
+    siempre que se usa una clase (ya sea que tu la hagas o que sea parte de .NET) hacemos una referencia a un objeto de cierta clase
+    var b = new book("Grades"); esto es un reference type
+    
+    lo que se guarda en la memoria es la direccion de memoria donde esta el objeto de tipo book de modo que b sera algo asi como 1070
+    entonces se guarda tanto la direccion de memoria como los valores valores que tenga el objeto
+
+Values Type
+    var x = 3; 
+    el runtime en el espacio de memoria no guarda la direccion como con la referencia, si no que guarda el valor en si mismo
+    los value types son por ejemplo todos los tipos de numeros int, float y double, toda variable que sea de ese tipo sera un 
+    value type
+    
+    
+ 
+ */
