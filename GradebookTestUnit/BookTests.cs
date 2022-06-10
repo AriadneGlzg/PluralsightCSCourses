@@ -16,16 +16,44 @@ namespace GradebookTestUnit
             book.AddGrade(80.0);
             book.AddGrade(60.5);
             book.AddGrade(100);
+          
             // Act Section
 
             var result = book.GetStatistics();
 
             // Assert Section
-
             Assert.Equal(74.6, result.Average,1);
             Assert.Equal(58.1, result.Lowest);
             Assert.Equal(100, result.Highest);
+            Assert.Equal('C', result.LetterGrade);
 
         }
+        [Fact]
+        public void NoGreaterThat100()
+        {
+            var book = new Book("");
+            book.AddGrade(101);
+            Assert.Equal(0,book.grades.Count);
+            
+        }
+
+        [Fact]
+        public void NoLowerThanZero()
+        {
+            var book = new Book("");
+            book.AddGrade(-0.01);
+            Assert.Empty(book.grades);
+
+        }
+
+        [Fact]
+        public void AddGrade()
+        {
+            var book = new Book("");
+            book.AddGrade(85);
+            Assert.NotEmpty(book.grades);
+
+        }
+
     }
 }

@@ -46,6 +46,76 @@ namespace Practice // el namespace es una keyword que se usa para declarar un sc
             Console.WriteLine($"{g2} {grades[2]} capacity: {grades.Capacity} count: {grades.Count}");
             grades.Add(29); // si se excede la capacidad puesta la capacidad automaticamente se dublicara, en este caso a 18
 
+        // ♥ Ciclos 
+
+        /* la diferencia entre el while y el do while es que el do while se ejecuta al menos una vez
+        extrañamente necesita que se cierre el statemente con un ;
+        el for es basicamente lo mismo jiji se inicializa el index; se da una condicion ; los aumentos o decrementos del index
+        for (var index = 0; index < grades.Count; index++) { }
+        for (var index = grades.Count; index < 0; index--) { }
+        */
+        done:
+            Console.WriteLine("Goto linea 58 ♥"); // ejemoplo del goto
+
+            var resultado=0.0;
+            for (int indice = 0; indice < grades.Count; indice++)
+            {
+                if (grades[indice] == 33) 
+                {
+                    break; //al ejecutarse el break en ese momento salimos del for y todos los estatementes debajo del break seran ignorados sale de golpe
+                }
+                resultado += grades[indice]; // si ocurre el break esta linea ya no se ejecutara porque saldreemos del ciclo
+            }
+            resultado/=grades.Count;
+            Console.WriteLine($"Grade Average is: {resultado:N2}");
+            
+            resultado=0;
+            for (int indice = 0; indice < grades.Count; indice++)
+            {
+                if (grades[indice] == 33)
+                {
+                    continue; //al ejecutarse el continue sale de esa iteracion, pero no del ciclo
+                    // es decir se va a saltar hacer el statemente de abajo pero volvera a la siguiente iteracion del for
+                }
+                resultado += grades[indice];
+            }
+            resultado /= grades.Count;
+            Console.WriteLine($"Grade Average is: {resultado:N2}");
+            resultado = 0;
+            Console.WriteLine($"En la siguiente instruccion entramos al for del goto");
+            for (int indice = 0; indice < grades.Count; indice++)
+            {
+                if (grades[indice] == 33)
+                {
+                    goto done2;
+                    goto done; //al ejecutarse el continue sale de esa iteracion, pero no del ciclo
+                    // es decir se va a saltar hacer el statemente de abajo pero volvera a la siguiente iteracion del for
+                    //el puntero se regresa a la linea donde le digas y se sigue ejecutando desde ahi por lo tanto harias un
+                    //un ciclo infinito, solo si la etiqueta esta lineas arriba si esta abajo solo se saltara partes del codigo
+                }
+                resultado += grades[indice];
+            }
+            resultado /= grades.Count;
+            Console.WriteLine($"Grade Average is: {resultado:N2}");
+            
+            done2:  Console.WriteLine("Se salto el calculo del average");
+
+            /*
+             El break statement te bota del ciclo que contiene a ese break, si hay ciclos anidados solo se saldra del ciclo que lo contenga
+             Esto implica que si abajo de lo que habia en el break habia mas statmentes, no se ejecutaran y saldra por completo del ciclo brincandose los
+             statements que pudieran faltar en la iteracion-
+             
+            
+                ejemplo:
+                for (i=10; i>=0 ; i--){
+                    for (j=1; j<15 ; j++){
+                        if (j==5){
+                            break;    <-- ahi solo saldra del for (j=1; j<15 ; j++) pero no del otro for
+                        }
+                    }   
+                }
+
+             */
             // ♥ Instanciar objetos
 
 
@@ -81,14 +151,36 @@ namespace Practice // el namespace es una keyword que se usa para declarar un sc
     }
 }
 
+/* Switch with pattern matching
+ 
+  switch (statistics.Average) 
+            {
+                case var average when (average >= 90.0): // la variable var average recibira lo que haya en statics.Average
+                    statistics.LetterGrade = 'A';
+                    break;
+                case var average when (average >= 80.0):
+                    statistics.LetterGrade = 'B';
+                    break;
+                case var average when (average >= 70.0):
+                    statistics.LetterGrade = 'C';
+                    break;
+                case var average when (average >= 60.0):
+                    statistics.LetterGrade = 'D';
+                    break;
+                default:
+                    statistics.LetterGrade = 'F';
+                    break;
+            }
+ 
+ */
+
 /*  ♥ Acess Modifiers
     controlan el acceso que se tiene de un miembro en particular de una clase. Acceso a metodos, campos o incluso a la misma clase.
     -Public: el miembro puede ser accesado por cuaquier codigo en el mismo conjunto de codigo, o incluso en otro poyecto
     -Private: da acceso solo al codigo que este dentro de esa definicion de clase (o estructura), por lo tanto toda manipulacion de quien tenga el
      modificador "private" tendra que ser manejado dentro de la clase.
     -Interna: Solo se puede usar dentro de ese assambley o proyecto
-    
--Protected: da acceso al codigo que este dentro de esa definicion de clase o dentro de clases derivadas de esa misma clase.
+    -Protected: da acceso al codigo que este dentro de esa definicion de clase o dentro de clases derivadas de esa misma clase.
 */
 
 /*
@@ -122,7 +214,55 @@ Values Type
     el runtime en el espacio de memoria no guarda la direccion como con la referencia, si no que guarda el valor en si mismo
     los value types son por ejemplo todos los tipos de numeros int, float y double, toda variable que sea de ese tipo sera un 
     value type
+    En un metodo, los parametros siempre se pasan by value, es decir aunque el parametro sea un objeto que por su naturaleza es un
+    reference type lo que se pasa es el value de la referencia, no la referencia en si. A menos de que le especifiquemos lo contrario
+    al metodo
+
+
+Rules
+
+Siempre que trabajemos con algo que sea definido con una clase, estamos trabajando con un reference type, esto sera un puntero a un 
+espacio de memoria.
+
+    public class Person // toda variable que venga de una clase, va a estar guardando una referencia al objeto.
+    {
+        
+    }
+
+Una struct se comporta como un value type, le puedes dar fields y metodos a una estructura como a una clase, pero a la vez es mas
+debe ser mas simple que una class, las estructuras siempre son value types de hecho la definicion de Float, Int, Double 
+DateTime, Boolean son estructuras
+
+    public struct Point
+    {
     
+    }
+Un caso especial son las string es un reference type, pero a menudo se comporta como un value type    
     
  
  */
+
+/* Runtime Garbage Collector
+ el runtime tracks todos los objetos que hemos creado, y sabe sobre todos los campos de un objeto que pueden apuntar a otras variables
+cuando nadie esta usando el objeto o alguno de sus campos entonces lo elimina. Si sale del scope tambien lo elimina
+
+*/
+
+
+/* Branch Flow
+    
+    
+*/
+
+/*   Try-Catch | throw Exception
+  
+        throw new ArgumentException($"Invalid {nameof(grade)} :( "); //nameof regresa literalmente el nombre de una variable 
+
+     cuando un error sucede por la razon que sea el programa crashea y se detiene 
+     dejando un mensaje de porque se detuvo. El termino tecnico para esto en c# 
+     es que el codigo tiro/arrojo (throw) una excepsion (exception) es decir que 
+     arrojo un error.
+
+     Si quiero que no se detenga el programa que no crashee necesito manejar esa
+     Exception. Esto se hace con un bloque try catch
+*/

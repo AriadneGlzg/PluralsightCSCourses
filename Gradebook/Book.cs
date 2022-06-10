@@ -14,7 +14,7 @@ namespace Gradebook // el namespace es el mismo que el del proyecto
         si esta solo como " class Book " se infiere que es internal por lo tanto no se podra usar en otros proyectos*/
     {
         //Fields (campos o propiedades)
-        List<double> grades; // como estamos en una clase, todos los campos o propiedades no pueden ser declarados como var
+        public List<double> grades; // como estamos en una clase, todos los campos o propiedades no pueden ser declarados como var
         private string name; // como es private toda forma de acceder a este campo sera por medio de metodos definidos dentro de la clase
         public string Name;
         public static string Description="Grade Books"; // esa es una propiedad a la que no se puede acceder con la instancia si no directo de a clase
@@ -26,7 +26,15 @@ namespace Gradebook // el namespace es el mismo que el del proyecto
         }
         public void AddGrade(double grade) //tipo tipoRetorno nombreMetodo(){} 
         {
-            grades.Add(grade);
+            if (grade <= 100 && grade >= 0) // en los || si la condicion de la izquierda se cumple ya no checa la de la derecha
+            {
+                grades.Add(grade);
+            }
+            else
+            {
+                throw new ArgumentException($"Invalid {nameof(grade)} :( "); //nameof regresa literalmente el nombre de una variable 
+
+            }
             //todas las variables que se creen dentro de las {} existiran unicamente en ese bloque, si quisieramos que vivieran en mas partes del codigo
             // tendriamos que ponerlas tan afuera de las {} como sea necesario
         }
@@ -41,19 +49,66 @@ namespace Gradebook // el namespace es el mismo que el del proyecto
             }
             statistics.Average /= grades.Count;
 
+            switch (statistics.Average) 
+            {
+                case var average when (average >= 90.0): // la variable var average recibira lo que haya en statics.Average
+                    statistics.LetterGrade = 'A';
+                    break;
+                case var average when (average >= 80.0):
+                    statistics.LetterGrade = 'B';
+                    break;
+                case var average when (average >= 70.0):
+                    statistics.LetterGrade = 'C';
+                    break;
+                case var average when (average >= 60.0):
+                    statistics.LetterGrade = 'D';
+                    break;
+                default:
+                    statistics.LetterGrade = 'F';
+                    break;
+            }
+
             return statistics;
         }
 
+        public void AddLetterGrade(string letter)
+        {
+            
+            switch (letter.ToUpper())
+            {
+                case "A":
+                    AddGrade(90);
+                    break;
+                case "B":
+                    AddGrade(80);
+                    break;
+                case "C":
+                    AddGrade(70);
+                    break;
+                case "D":
+                    AddGrade(60);
+                    break;
+                default:
+                    AddGrade(0);
+                    break;
+            }
+        }
         // con la funcion anterior podriamos reducir y reusar codigo de la siguiente forma:
         public void ShowStatistics()
         {
             var statistics = new double[] {double.MaxValue,double.MinValue,0};
-            foreach (var grade in grades)
+            var index = 0;
+            do
             {
-                statistics[0] = Math.Min(statistics[0], grade);
-                statistics[1] = Math.Max(statistics[1], grade);
-                statistics[2] += grade;
-            }
+                statistics[0] = Math.Min(statistics[0], grades[index]);
+                statistics[1] = Math.Max(statistics[1], grades[index]);
+                statistics[2] += grades[index];
+
+                index++;
+            } while (index < grades.Count); 
+
+
+
             Console.WriteLine($"{name}'s {Book.Description} Stats \n •Lowest Grade: {statistics[0]:N2} \n •Highest Grade: {statistics[1]:N2} \n •Average Grade: {(statistics[2] / statistics.Length):N2}");
         }
         
