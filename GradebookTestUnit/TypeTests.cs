@@ -5,8 +5,118 @@ using Gradebook; //se usa todo lo que sea accesible (public) dentro del proyecto
 //cuando un proyecto tiene un nombre como Gradebook.Test es una forma de decir que esta dentro de Gradebook pero en el apartado test
 namespace GradebookTestUnit
 {
-    public class TypeTests 
-    {        
+    /*aqui se hace la descripsion de como seria el metodo despues del delegate vendria lo que en un metood
+     seria el tipo de retorno el nombre del metodo y el parametro(s) de entrada*/
+    public delegate string WriteLogDelegate(string logMessage);
+    public class TypeTests
+    {
+
+        int count = 10;
+        [Fact]
+        public void WriteLogDelegateCanPointMethod()
+        {
+            /*
+             describimos como funciona un metodo con un delegado basicamente el delegado es un puntero a un metodo 
+            que haga match con la descripsion del delegado es decir, que el typo de retorno y los parametros de entrada
+            sean iguales,independientemente de lo que se haga dentro del metodo
+            al crear la instancia del delegado debemos decirle al delegado cual es el nombre del metodo
+            al que va a apuntar.
+
+            la forma de declarar el delegado puede ser 
+            
+            WriteLogDelegate log2;
+            log2 = ReturnMesagge;
+
+            tambien sirven los delegados para pasar a un metodo, otro metodo como parametro.
+            supongomos que existe un delegado printConsole y queremos a un metodo pasarle otro metodo como
+            para metro tendriamos algo asi 
+
+            public delegate string princConsole(string msg)
+           
+            public void miMetodo(printConsole x)
+            {
+                x("Alohita");
+            }
+             */
+
+            var log = new WriteLogDelegate(ReturnMesagge);
+            var result = log("Alohita ♥");
+
+            Assert.Equal("Alohita ♥", result);
+        }
+
+        string ReturnMesagge(string msg) //por default sera privado
+        { 
+            return msg;
+        }
+        [Fact]
+
+        public void MultiCastDelegate() 
+        {
+            //Arrange
+            WriteLogDelegate miDelegado;
+            WriteLogDelegate miDelegado2;
+            WriteLogDelegate miDelegado3;
+            
+            /*El cast de un delegado es que a una misma mariable de tipo delegado se le asignen o concatenen
+              mas de un metodo, es decir al momento que al delegado se le pase el parametro se ejecutaran en 
+              cascada todos los metodos que esten casteados en la variable de tipo delegado. 
+               se ejecutaran en el orden que se hayan integrado a la variable
+             */
+
+            //Act
+            //miDelegado = new WriteLogDelegate(ReturnMesagge);
+            //miDelegado += Add2Count; //+= ese operador hace el casting de metodos al delegado
+            //miDelegado += MultCount; // es decir añade un metodo al delegado
+            //miDelegado("test");
+
+            //miDelegado2 = new WriteLogDelegate(ReturnMesagge);
+            //miDelegado2 += MultCount;
+            //miDelegado2 += Add2Count;
+            //miDelegado2("test");
+
+            miDelegado3 = new WriteLogDelegate(Add2Count);
+            miDelegado3 += MultCount;
+            miDelegado3 -= Add2Count; //el operador -= quita un metodo casteado del delegado
+            miDelegado3("test");
+
+            //Assert
+            //Assert.Equal(75, count); //miDelegado
+            //Assert.Equal(55, count); //miDelegado2
+            Assert.Equal(50, count); //miDelegado3
+        }
+        string Add2Count(string msg) 
+        {
+            count += 5;
+            return msg;
+        }
+        string MultCount(string msg)
+        {
+            count *= 5;
+            return msg;
+        }
+
+        [Fact]
+        public void VarBehavior()
+        {
+            //Arrange
+            int xint = 11;
+            var xvar = xint; //aqui var va a guardar un value 
+            //Act
+            xint = 12;
+            var xvar2 = xvar;//aqui var guarda una referecia
+            xvar2 = 13;
+            //Asserts
+            Assert.NotEqual(12,xvar); //xvar se quedo con una referencia nada mas
+            Assert.Equal(12,xint);
+            Assert.Equal(13,xvar2);
+            Assert.Equal(11, xvar);
+            /*
+             Cuando var se le asigna algo que sea un type value, no va a guardar una referencia
+            si no que va a comportarse 
+             */
+        }
+        
         [Fact]
         public void StringBehavesAsValueType2()
         {
@@ -111,7 +221,7 @@ namespace GradebookTestUnit
         {
             /*Aqui le decimos al metodo que pase a book la referencia como tal y no el value de referencia
              por lo tanto aunque abajo se haga un nuevo objeto, la ref va a seguir siendo la de book1*/
-            book = new Book(name);
+            book = new Book(name,11);
         }
 
         [Fact]
@@ -136,7 +246,7 @@ namespace GradebookTestUnit
 
         private Book GetBookSetName(Book book, string name)
         {
-            book = new Book(name); /* aqui se crea el nuevo objeto, lo que se modifica es la referencia nueva, antes book tenia la 
+            book = new Book(name,11); /* aqui se crea el nuevo objeto, lo que se modifica es la referencia nueva, antes book tenia la 
             * referencia a book1 y ahora tiene una referencia a un objeto de tipo Book distinto, book deja de guardar la referencia a 
             * book1 y ahora guarda la referencia del new Book. Por lo tanto despues de esa linea book y book1 son dos referencias
             * a objetos diferentes, esto es un invoke by value . Aqui se le hace overwrite a la referencia                       
@@ -215,7 +325,7 @@ namespace GradebookTestUnit
         }
         Book GetBook(string name)
         {
-            return new Book(name);
+            return new Book(name,0);
         }
     }
 }

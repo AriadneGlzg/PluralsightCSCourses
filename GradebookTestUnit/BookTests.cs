@@ -11,7 +11,7 @@ namespace GradebookTestUnit
         public void TestStatistics()
         {
             // Arrange Section
-            var book = new Book("");
+            var book = new Book("",0);
             book.AddGrade(58.1);
             book.AddGrade(80.0);
             book.AddGrade(60.5);
@@ -31,7 +31,7 @@ namespace GradebookTestUnit
         [Fact]
         public void NoGreaterThat100()
         {
-            var book = new Book("");
+            var book = new Book("",0);
             book.AddGrade(101);
             Assert.Equal(0,book.grades.Count);
             
@@ -40,7 +40,7 @@ namespace GradebookTestUnit
         [Fact]
         public void NoLowerThanZero()
         {
-            var book = new Book("");
+            var book = new Book("",0);
             book.AddGrade(-0.01);
             Assert.Empty(book.grades);
 
@@ -49,7 +49,7 @@ namespace GradebookTestUnit
         [Fact]
         public void AddGrade()
         {
-            var book = new Book("");
+            var book = new Book("",0);
             book.AddGrade(85);
             Assert.NotEmpty(book.grades);
 

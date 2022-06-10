@@ -11,7 +11,7 @@ namespace GradebookTestUnit
         public void Test1()
         {
             /* Arrange Section: es donde se ponen todos los datos de prueba y objetos que se van a usar */
-            var book = new Book("Paola");
+            var book = new Book("Paola",0);
             var x = 5;
             var y = 2;
             var expected = 7;

@@ -10,7 +10,15 @@ namespace Practice // el namespace es una keyword que se usa para declarar un sc
 
     class Book // keyword class nombre {} dentro de las llaves  iran todos los atributos o metodos necesarios, tu puedes poner dentro del mismo
     { //archivo todas las clases que se quieran, pero por buenas practicas se ponen en otro archivo por una cuestion de organizacion
+        public string name; //campo
+        public int pages { get; private set; }//propiedad
 
+        public const string CATEGORY = "Dark Knowladge ♥"; //campo
+
+        public Book(string name, int pages) {
+            this.name = name;
+            this.pages = pages;
+        }
     }
 
     internal class ProgramPractice
@@ -25,8 +33,10 @@ namespace Practice // el namespace es una keyword que se usa para declarar un sc
         {
             //variables y como usarlas ♥
             int a = 12;
-            var x = "alohita"; //las variables con tipo var deben ser inicializadas en el momento que se crean, ya sea con un valor como tal, o una expresion. EL var es de tipo implicito es decir
-            //el compilador decide que tipo de variable es en el momento que se inicializa, por lo tanto si se inicializa como un string, siempre sera un string en el codigo, no como en JS
+            var x = "alohita"; /*las variables con tipo var deben ser inicializadas en el momento que se crean, ya sea con un valor como tal, o una expresion. EL var es de tipo implicito es decir
+            el compilador decide que tipo de variable es en el momento que se inicializa, por lo tanto si se inicializa como un string, siempre sera un string en el codigo, no como en JS
+            esto debido a que las variables realmente son punteros, es decir guardan una referencia en memoria del objeto o tipo que se esta guardando
+            */
             var y = $"{x} existe en x";
             var z = a * 13.81;
 
@@ -133,7 +143,8 @@ namespace Practice // el namespace es una keyword que se usa para declarar un sc
              */
             List<double> list = new();//new List<double> (); tambien se soluciona de esa forma 
             list.Add(88.2);
-
+            Book booktest = new("Into Osezna's Mind",11);
+            Console.Write(Book.CATEGORY);
             // en la memoria cuando hacemos (suponiendo que existe una clase "Book") Book gradebook = new () la memoria dice la variable "gradebook" hace referencia a un objeto del tipo "Book"
             // si hacemos Book gradebook = null; null es una forma de decir que una varible no hace referencia a un objeto, en general se trata de evotar trabajar con nullos
 
@@ -149,7 +160,10 @@ namespace Practice // el namespace es una keyword que se usa para declarar un sc
 
         }
     }
-}
+}/*
+        Delegados y Eventos 
+  
+  */
 
 /* Switch with pattern matching
  

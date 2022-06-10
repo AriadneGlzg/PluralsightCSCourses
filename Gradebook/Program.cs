@@ -9,7 +9,7 @@ namespace Gradebook
     { 
         static void Main(string[] args)
         {
-            Book book = new Book("Scott");
+            Book book = new Book("Scott",11);
             bool stayinprogram = true;
             Console.WriteLine("Grades Register");
             while (stayinprogram) 
@@ -34,10 +34,7 @@ namespace Gradebook
             Console.ResetColor();
             Console.ReadLine();
             Console.Clear();
-            
-            
 
-            
             //book.AddGrade(29.5);
             //book.AddGrade(65.0);
             //book.AddGrade(78.5);
@@ -55,7 +52,6 @@ namespace Gradebook
             */  
 
             //Console.WriteLine($"{book.Description}"); hay un error en el statement porque Description es un campo estatico por lo tanto no se debe acceder a el por medio de la instancia si no de la clase Book.Description
-
         }
 
         private static void addLetterGrade(Book book)
