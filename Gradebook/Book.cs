@@ -10,6 +10,17 @@ namespace Gradebook // el namespace es el mismo que el del proyecto
     //lo que tiene la llavesita en el intellicense es un atributo o propiedad, lo que tiene el cubito son metodos.
     //lo que hacemos con las clases es darles un comportamiento en base a los metodos que establecemos en ellos y sus propiedades.
     //Para este gradebook lo que queremos es porder pasarle una calificacion y que la guarde.
+
+    /*
+        si por ejemplo queremos saber cada que se añade una grade podemos estar monitoreando el evento 
+    "grade added"
+
+   usamos object como el sender porque la clase objecto soporta todos los tipos y todas las clases ya creadas o que creemos nosotros
+    el sender es quien esta enviando o generando el evento
+    args es cualquier info adicional que quieras EventArgs es una clase generica puedes pasar informacion
+    */
+    public delegate void GradeAddedDelegate(object sender, EventArgs args); // esto en buenas practicas se haria en otro archivito por separado
+
     public class Book /* si no se le pone el modificador de acceso "public" por default sera de tipo internal aunque no lo tenga explicitamente es decir
         si esta solo como " class Book " se infiere que es internal por lo tanto no se podra usar en otros proyectos*/
     {
@@ -18,6 +29,11 @@ namespace Gradebook // el namespace es el mismo que el del proyecto
         private string name; // como es private toda forma de acceder a este campo sera por medio de metodos definidos dentro de la clase
         public string Name;
         public static string Description="Grade Books"; // esa es una propiedad a la que no se puede acceder con la instancia si no directo de a clase
+        /*
+         Los eventos tambien pueden ser miembros de clase, es decir estamos diciendo que en algun metodo la clase tiene un evento el evento es 
+         GradeAdded
+         */
+        public event GradeAddedDelegate GradeAdded;
 
         //Methods (Metodos)
         //los metodos deben ser lo mas pequeños posibles.
@@ -29,6 +45,24 @@ namespace Gradebook // el namespace es el mismo que el del proyecto
             if (grade <= 100 && grade >= 0) // en los || si la condicion de la izquierda se cumple ya no checa la de la derecha
             {
                 grades.Add(grade);
+
+                /*.. aqui podria haber un algo que alertara que se ejecuto el metodo
+                pero no tiene porque ser responsabilidad del libro monitorear quien 
+                quere saber a quien le importa el evento.
+
+                esto se puede hacer con un delegado ya que el delegado va a estar apuntando
+                al metodo.
+                
+                Ese algo sera el delegado al evento, revisamos que el delegado no sea nulo, es decir en algun punto
+                alguien que cree un objeto de tipo book tendra que asignarle un metodo a GradeAdded
+
+                book.GradeAdded=algo; esto seria la subscripsion al evento
+                */
+                if (GradeAdded != null) 
+                { 
+                    GradeAdded(this, EventArgs.Empty);
+                }
+                
             }
             else
             {

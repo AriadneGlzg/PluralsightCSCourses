@@ -13,9 +13,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GradebookTestUnit", "Gradeb
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CS Fundamentals", "CS Fundamentals", "{D352023E-039B-4D87-A045-4C14023E22B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SOLIDprinciples", "SOLIDprinciples\SOLIDprinciples.csproj", "{6FF6C216-977F-408D-9C62-80C11FF70427}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SOLIDprinciples", "SOLIDprinciples\SOLIDprinciples.csproj", "{6FF6C216-977F-408D-9C62-80C11FF70427}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RefactoringCsharp", "RefactoringCsharp\RefactoringCsharp.csproj", "{23C9A9FA-27D2-4C40-BDE4-FBA1D5BB4322}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RefactoringCsharp", "RefactoringCsharp\RefactoringCsharp.csproj", "{23C9A9FA-27D2-4C40-BDE4-FBA1D5BB4322}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A37C3147-BD5F-4A73-AD34-963394D8B24B}"
+	ProjectSection(SolutionItems) = preProject
+		Fundamentals_Resume.txt = Fundamentals_Resume.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

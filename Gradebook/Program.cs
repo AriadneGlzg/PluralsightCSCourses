@@ -10,6 +10,7 @@ namespace Gradebook
         static void Main(string[] args)
         {
             Book book = new Book("Scott");
+            book.GradeAdded += OnGradeAdded; // aqui nos suscribimos al evento y le decimos que cuando ocurra el evento el metodo OnGradeAdded sera quien responda a dicho evento
             bool stayinprogram = true;
             Console.WriteLine("Grades Register");
             while (stayinprogram) 
@@ -56,6 +57,13 @@ namespace Gradebook
 
             //Console.WriteLine($"{book.Description}"); hay un error en el statement porque Description es un campo estatico por lo tanto no se debe acceder a el por medio de la instancia si no de la clase Book.Description
 
+        }
+
+        static void OnGradeAdded(object sender, EventArgs e)
+        {
+            Console.ForegroundColor=ConsoleColor.Green;
+            Console.WriteLine($"A grade was added to {nameof(sender)}!");
+            Console.ResetColor();
         }
 
         private static void addLetterGrade(Book book)

@@ -266,3 +266,14 @@ cuando nadie esta usando el objeto o alguno de sus campos entonces lo elimina. S
      Si quiero que no se detenga el programa que no crashee necesito manejar esa
      Exception. Esto se hace con un bloque try catch
 */
+
+/*
+    EVENTOS
+A veces nos interesa saber cuando un evento se ha ejecutado en alguna parte del programa
+tal vez en algun otro archivo.
+
+es como cuando aprietas un boton tu necesitas que se presiono necesitas algun tipo de alarma
+
+ 
+ 
+ */

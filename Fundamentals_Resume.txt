@@ -1,0 +1,16 @@
+﻿♥ Clases ♥
+
+Las clases pueden tener varias cosas dentro esto se llama  miembros de clase que pueden ser:
+	-Campos (deben preferentemente ser privados) esto son const y readonly son campos
+	-Propiedades (get set)
+	-eventos que reaccion al ejecutarse un metodo.
+	-Metodos funciones propias de la clase
+A los metodos se les puede hacer overload, siempre y cuando cada overload tenga una unica signature
+es decir mismo nombre de metodo pero distintos parametros (tipos) de entrada. A los metodos siempre
+se les pasa un value, no una referencia.
+
+Los objectos creados a partir de una clase siempre tendran una referencia.
+
+
+
+
