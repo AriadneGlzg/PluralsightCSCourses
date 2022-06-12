@@ -32,6 +32,7 @@ namespace Gradebook
             }
             Console.ForegroundColor= ConsoleColor.Magenta;
             Console.WriteLine("Good Bye ♥");
+            Console.WriteLine(book.ToString());
             Console.ResetColor();
             Console.ReadLine();
             Console.Clear();

@@ -146,7 +146,14 @@ namespace Practice // el namespace es una keyword que se usa para declarar un sc
             {
                 Console.WriteLine("Hello there are no args in main method ♥"); // por cierto el motodo WriteLine es un static public
             }
-
+            /*Abstract Class*/
+            //Figure figure = new Figure(1, 1); eso seria un error ya que una clase abstracta no funciona por si misma
+            Figure cuadrado = new Square(8);
+            Figure circulo = new Circle(8);
+            Figure rectangulo= new Rectangle(8,4);
+            cuadrado.ShowData();
+            circulo.ShowData();
+            rectangulo.ShowData();
         }
     }
 }

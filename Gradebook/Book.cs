@@ -21,13 +21,40 @@ namespace Gradebook // el namespace es el mismo que el del proyecto
     */
     public delegate void GradeAddedDelegate(object sender, EventArgs args); // esto en buenas practicas se haria en otro archivito por separado
 
-    public class Book /* si no se le pone el modificador de acceso "public" por default sera de tipo internal aunque no lo tenga explicitamente es decir
+    public class NameObject
+    { 
+        public string Name { get; set; }
+
+        public NameObject(string name) 
+        {
+        Name = name;
+        }
+
+        public string NamePretty()
+        {
+            return $"{Name} ♥";
+        }
+    }
+
+    public abstract class BookBase : NameObject
+    {
+        /*forzosamente todos los miembros que tengan las clases hijas deberan tener todos los
+         miembros de clase del padre, si usamos la palabra "abstract" estamos obligando a las clases
+         hijas a sobreescribir el metodo (override)*/
+        public BookBase(string name) : base(name) 
+        {
+        }
+        public abstract void AddGrade(double grade); //es como si lo dejaramos declarado para que alguien
+        //mas lo implemente
+    }
+    /*Con el fin de demostrar la herencia de clases haremos que book herede de NameObject*/
+    public class Book : BookBase /* si no se le pone el modificador de acceso "public" por default sera de tipo internal aunque no lo tenga explicitamente es decir
         si esta solo como " class Book " se infiere que es internal por lo tanto no se podra usar en otros proyectos*/
     {
         //Fields (campos o propiedades)
         public List<double> grades; // como estamos en una clase, todos los campos o propiedades no pueden ser declarados como var
         private string name; // como es private toda forma de acceder a este campo sera por medio de metodos definidos dentro de la clase
-        public string Name;
+        //public string Name; Ahora se puede no poner el nombre porque el nombre ya se provee por la clase padre NameObject
         public static string Description="Grade Books"; // esa es una propiedad a la que no se puede acceder con la instancia si no directo de a clase
         /*
          Los eventos tambien pueden ser miembros de clase, es decir estamos diciendo que en algun metodo la clase tiene un evento el evento es 
@@ -40,7 +67,9 @@ namespace Gradebook // el namespace es el mismo que el del proyecto
         public string GetName() { 
         return name;
         }
-        public void AddGrade(double grade) //tipo tipoRetorno nombreMetodo(){} 
+
+        //al agregar la palabra override hacemos la implementacion del metodo AddGrade definido en BookBase
+        public override void AddGrade(double grade) //tipo tipoRetorno nombreMetodo(){} 
         {
             if (grade <= 100 && grade >= 0) // en los || si la condicion de la izquierda se cumple ya no checa la de la derecha
             {
@@ -56,11 +85,15 @@ namespace Gradebook // el namespace es el mismo que el del proyecto
                 Ese algo sera el delegado al evento, revisamos que el delegado no sea nulo, es decir en algun punto
                 alguien que cree un objeto de tipo book tendra que asignarle un metodo a GradeAdded
 
-                book.GradeAdded=algo; esto seria la subscripsion al evento
+                book.GradeAdded += MetodoManejadorDelEvento; esto seria la subscripsion al evento en la parte del codigo
+                a quien le interese el event sobre el objeto book de tipo Book
+
+                con que no sea nulo hace referencia a que se le haya asignado un evento como en la parte arriba, es decir
+                que se haya hecho la subscripsion
                 */
-                if (GradeAdded != null) 
+                if (GradeAdded != null)
                 { 
-                    GradeAdded(this, EventArgs.Empty);
+                    GradeAdded(this, EventArgs.Empty); //this de que es este objeto
                 }
                 
             }
@@ -104,7 +137,6 @@ namespace Gradebook // el namespace es el mismo que el del proyecto
 
             return statistics;
         }
-
         public void AddLetterGrade(string letter)
         {
             
@@ -150,13 +182,17 @@ namespace Gradebook // el namespace es el mismo que el del proyecto
         // Constructor 
         /*el constructor es lo que construye al objeto, uno puede hacer su propio "constructor de clase" de tal modo que se puede tener total control de 
          la inicializacion de un objeto de esa clase, en escencia el constructor es un metodo, por tanto este "metodo" tendra el mismo nombre que la clase 
-         este metodo se ejecutara en cuanto se instancie el objeto con la keyword new */
+         este metodo se ejecutara en cuanto se instancie el objeto con la keyword new 
+        
+         Cuando se hereda, el constructor que manda es el de la clase padre, por lo tanto cuando hagamos nuenstro constructor
+         es necesario poner : base() y en base vamos a pasar todos los parametros que requiera el costructor padre*/
 
-        public Book(string name) // en este caso el constructor es Book() porque la clase es Book
-        {
+
+        public Book(string name) : base(name)// en este caso el constructor es Book() porque la clase es Book
+        {// pedimos el string name en Book y se lo pasamos al padre con base
             grades = new List<double>();
             this.name = name; // this hace referencia a "name" este name de la clase no del costructor "this" sirve para acceder a un miembro de this class de esta clase
-            this.Name = name;    
+            //this.Name = name;    
         }
 
     }

@@ -11,6 +11,22 @@ se les pasa un value, no una referencia.
 
 Los objectos creados a partir de una clase siempre tendran una referencia.
 
+Encapsulacion: esconder ciertos detalles de nuestro codigo, los metodos y las campos son quienes
+albergan ese codigo encapsulado, con los modificadores de acceso podemos controlar quien puede ver el codigo
+
+Herencia: nos permite reusar codigo entre clases similares, es decir una clase padre puede heredar, 
+campos, propiedades, metodos, eventos. La clase hijo tendra todos los miembros de clase del padre, 
+y aparte podra tener miembros de clase propios que ya no seran accesibles por el padre.
+
+Cuando se construye un objeto de la clase hijo de alguna forma tambien estamos haciendo un objeto de la clase 
+padre. El constructor que manda es el del padre, primero hay que cumplir los requerimientos de la clase padre 
+y despues los de la clase hija, esto se hace usando : base() dentro de los() pasamos los parametros requeridos 
+por el padre --> public ClaseHija (type parm1, type param2...): base(param1)
+
+Todo en C# hereda de una clase llamada Object que esta en la libreria System, todas las clases y los typos
+
+
+Polimorfismo: hace que un objetos del mismo typo se comporten diferente. 
 
 
 

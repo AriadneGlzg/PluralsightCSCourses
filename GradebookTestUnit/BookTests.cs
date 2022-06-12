@@ -7,6 +7,18 @@ namespace GradebookTestUnit
 {
     public class BookTests 
     {
+        [Fact]
+        public void enheritance() 
+        {
+            //Arrange
+            Book book = new Book("Nombre");
+            //Act
+            var response = book.NamePretty();
+            //Assert
+            Assert.Equal("Nombre ♥", response);
+            Assert.Equal("Nombre", book.Name);
+        }
+
         [Fact] 
         public void TestStatistics()
         {
@@ -32,7 +44,9 @@ namespace GradebookTestUnit
         public void NoGreaterThat100()
         {
             var book = new Book("");
-            book.AddGrade(101);
+
+            try { book.AddGrade(101); }
+            catch { }
             Assert.Equal(0,book.grades.Count);
             
         }
@@ -41,7 +55,8 @@ namespace GradebookTestUnit
         public void NoLowerThanZero()
         {
             var book = new Book("");
-            book.AddGrade(-0.01);
+            try { book.AddGrade(-0.01); }
+            catch {}
             Assert.Empty(book.grades);
 
         }
