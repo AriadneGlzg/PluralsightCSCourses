@@ -9,7 +9,7 @@ namespace Gradebook
     { 
         static void Main(string[] args)
         {
-            Book book = new Book("Scott");
+            DiskBook book = new DiskBook("Scott");
             book.GradeAdded += OnGradeAdded; // aqui nos suscribimos al evento y le decimos que cuando ocurra el evento el metodo OnGradeAdded sera quien responda a dicho evento
             bool stayinprogram = true;
             Console.WriteLine("Grades Register");
@@ -50,7 +50,7 @@ namespace Gradebook
             //book.ShowStatistics(); 
             var statistics = book.GetStatistics();// sustituimos la linea de arriba por esta
             //agregamos la linea de abajo para seguir mostrando en consola las estadisticas
-            Console.WriteLine($"{book.GetName()}'s {Book.Description} Stats \n ♥ Lowest Grade: {statistics.Lowest:N1} \n ♥ Highest Grade: {statistics.Highest:N1} \n ♥ Average Grade: {statistics.Average:N2}");
+            Console.WriteLine($"{InMememoryBook.Description} Stats \n ♥ Lowest Grade: {statistics.Lowest:N1} \n ♥ Highest Grade: {statistics.Highest:N1} \n ♥ Average Grade: {statistics.Average:N2}");
             Console.WriteLine($"a = {book.grades[book.grades.Count - 2]}  B= {book.grades[book.grades.Count - 1]}");
             /* a todos los cambios anteriores se les llama refactoring, esto sucede cuando tus pruebas unitarias te obligan
                a cambiar el codigo, de tal modo que mejore el diseño, eso es a lo que se le llama refactorizar       
@@ -67,14 +67,14 @@ namespace Gradebook
             Console.ResetColor();
         }
 
-        private static void addLetterGrade(Book book)
+        private static void addLetterGrade(DiskBook book)
         {
             bool stayhere = true;
             while (stayhere)
             {
                 Console.Write("Enter a letter grade: ");
                 Console.ForegroundColor = ConsoleColor.DarkCyan;
-                book.AddLetterGrade(Console.ReadLine());
+                book.AddGrade(Console.ReadLine());
                 Console.ResetColor();
                 Console.Write("Do you wanna enter another letter grade? (y/n) ");
                 

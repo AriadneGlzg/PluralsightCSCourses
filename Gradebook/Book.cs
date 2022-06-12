@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,7 +21,16 @@ namespace Gradebook // el namespace es el mismo que el del proyecto
     args es cualquier info adicional que quieras EventArgs es una clase generica puedes pasar informacion
     */
     public delegate void GradeAddedDelegate(object sender, EventArgs args); // esto en buenas practicas se haria en otro archivito por separado
-
+    //Interfaz
+    public interface IBook
+    { /*la interfaz define todo lo que por fuerza debe existir en las clases que hereden de ella, la interfaz no se preocupa
+       sobre como sera la implementacion (de hecho no debe haber ningun cuerpo de metodo, en las clases abstractas si) la implementacion
+        ya sera problema de quien herede de ella
+       */
+        void AddGrade(double grade);
+        Statistics GetStatistics();
+        event GradeAddedDelegate GradeAdded;
+    }
     public class NameObject
     { 
         public string Name { get; set; }
@@ -35,20 +45,85 @@ namespace Gradebook // el namespace es el mismo que el del proyecto
             return $"{Name} ♥";
         }
     }
-
-    public abstract class BookBase : NameObject
+    /*Con el fin de demostrar la herencia de clases haremos que book herede de NameObject y de la interfaz IBook*/
+    public abstract class Book : NameObject, IBook
     {
         /*forzosamente todos los miembros que tengan las clases hijas deberan tener todos los
          miembros de clase del padre, si usamos la palabra "abstract" estamos obligando a las clases
          hijas a sobreescribir el metodo (override)*/
-        public BookBase(string name) : base(name) 
+        public Book(string name) : base(name) 
         {
         }
+        // implementaciones de la IBook
+        public abstract event GradeAddedDelegate GradeAdded;
+        public abstract Statistics GetStatistics(); //cuando un metodo es abstract puede no tener cuerpo de implementacion, cuando es override si
+        // fin de IBook
         public abstract void AddGrade(double grade); //es como si lo dejaramos declarado para que alguien
         //mas lo implemente
     }
-    /*Con el fin de demostrar la herencia de clases haremos que book herede de NameObject*/
-    public class Book : BookBase /* si no se le pone el modificador de acceso "public" por default sera de tipo internal aunque no lo tenga explicitamente es decir
+    public class DiskBook : Book
+    {
+
+        public override Statistics GetStatistics()
+        {
+            throw new NotImplementedException();
+        }
+        public List<double> grades;
+        public DiskBook(string name) : base(name) { }
+        
+        public override event GradeAddedDelegate GradeAdded;
+        public override void AddGrade(double grade) //tipo tipoRetorno nombreMetodo(){} 
+        {
+            string path= @"C:\Users\1105a\Desktop\Gradebook_practice\";
+            if (!File.Exists($"{path}{Name}2.txt")) 
+            {
+              var file = File.CreateText($"{path}{Name}2.txt");
+                file.Close();
+                
+            }
+            
+            if (grade <= 100 && grade >= 0) 
+            {
+                var write=File.AppendText($"{path}{Name}2.txt"); //abrimos el archivo
+                write.WriteLine(grade); // escribimos en el
+                write.Close(); //cerramos el archivo
+                if (GradeAdded != null)
+                {
+                    GradeAdded(this, EventArgs.Empty); //this de que es este objeto
+                }
+            }
+            else
+            {
+                throw new ArgumentException($"Invalid {nameof(grade)} :( "); 
+
+            }
+        }
+
+        public void AddGrade(string letter)
+        {
+
+            switch (letter.ToUpper())
+            {
+                case "A":
+                    AddGrade(90);
+                    break;
+                case "B":
+                    AddGrade(80);
+                    break;
+                case "C":
+                    AddGrade(70);
+                    break;
+                case "D":
+                    AddGrade(60);
+                    break;
+                default:
+                    AddGrade(0);
+                    break;
+            }
+        }
+    }
+    
+    public class InMememoryBook : Book /* si no se le pone el modificador de acceso "public" por default sera de tipo internal aunque no lo tenga explicitamente es decir
         si esta solo como " class Book " se infiere que es internal por lo tanto no se podra usar en otros proyectos*/
     {
         //Fields (campos o propiedades)
@@ -60,7 +135,8 @@ namespace Gradebook // el namespace es el mismo que el del proyecto
          Los eventos tambien pueden ser miembros de clase, es decir estamos diciendo que en algun metodo la clase tiene un evento el evento es 
          GradeAdded
          */
-        public event GradeAddedDelegate GradeAdded;
+        public override event GradeAddedDelegate GradeAdded; /* sin el virtual en el evento de la clase padree (que hereda de una interfaz) y el override aqui marcaria un warning porque seria como
+        declarar dos veces el evento, para solucionar eso hay dos opciones, o borramos la declaracion aqui o les ponemos el public y override*/
 
         //Methods (Metodos)
         //los metodos deben ser lo mas pequeños posibles.
@@ -105,7 +181,7 @@ namespace Gradebook // el namespace es el mismo que el del proyecto
             //todas las variables que se creen dentro de las {} existiran unicamente en ese bloque, si quisieramos que vivieran en mas partes del codigo
             // tendriamos que ponerlas tan afuera de las {} como sea necesario
         }
-        public Statistics GetStatistics()
+        public override Statistics GetStatistics()
         {
             var statistics = new Statistics();statistics.Lowest = double.MaxValue;statistics.Highest = double.MinValue;
             foreach (var grade in grades)
@@ -175,7 +251,7 @@ namespace Gradebook // el namespace es el mismo que el del proyecto
 
 
 
-            Console.WriteLine($"{name}'s {Book.Description} Stats \n •Lowest Grade: {statistics[0]:N2} \n •Highest Grade: {statistics[1]:N2} \n •Average Grade: {(statistics[2] / statistics.Length):N2}");
+            Console.WriteLine($"{name}'s {InMememoryBook.Description} Stats \n •Lowest Grade: {statistics[0]:N2} \n •Highest Grade: {statistics[1]:N2} \n •Average Grade: {(statistics[2] / statistics.Length):N2}");
         }
         
 
@@ -188,7 +264,7 @@ namespace Gradebook // el namespace es el mismo que el del proyecto
          es necesario poner : base() y en base vamos a pasar todos los parametros que requiera el costructor padre*/
 
 
-        public Book(string name) : base(name)// en este caso el constructor es Book() porque la clase es Book
+        public InMememoryBook(string name) : base(name)// en este caso el constructor es Book() porque la clase es Book
         {// pedimos el string name en Book y se lo pasamos al padre con base
             grades = new List<double>();
             this.name = name; // this hace referencia a "name" este name de la clase no del costructor "this" sirve para acceder a un miembro de this class de esta clase

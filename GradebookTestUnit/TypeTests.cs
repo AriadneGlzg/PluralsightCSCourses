@@ -107,11 +107,11 @@ namespace GradebookTestUnit
            
         }
 
-        private void GetBookSetNameR(ref Book book, string name)
+        private void GetBookSetNameR(ref InMememoryBook book, string name)
         {
             /*Aqui le decimos al metodo que pase a book la referencia como tal y no el value de referencia
              por lo tanto aunque abajo se haga un nuevo objeto, la ref va a seguir siendo la de book1*/
-            book = new Book(name);
+            book = new InMememoryBook(name);
         }
 
         [Fact]
@@ -134,9 +134,9 @@ namespace GradebookTestUnit
   
         }
 
-        private Book GetBookSetName(Book book, string name)
+        private InMememoryBook GetBookSetName(InMememoryBook book, string name)
         {
-            book = new Book(name); /* aqui se crea el nuevo objeto, lo que se modifica es la referencia nueva, antes book tenia la 
+            book = new InMememoryBook(name); /* aqui se crea el nuevo objeto, lo que se modifica es la referencia nueva, antes book tenia la 
             * referencia a book1 y ahora tiene una referencia a un objeto de tipo Book distinto, book deja de guardar la referencia a 
             * book1 y ahora guarda la referencia del new Book. Por lo tanto despues de esa linea book y book1 son dos referencias
             * a objetos diferentes, esto es un invoke by value . Aqui se le hace overwrite a la referencia                       
@@ -166,7 +166,7 @@ namespace GradebookTestUnit
             */
         }
 
-        private void SetName(Book book, string name)
+        private void SetName(InMememoryBook book, string name)
         {
             book.Name = name;
             /*
@@ -213,9 +213,9 @@ namespace GradebookTestUnit
             */
 
         }
-        Book GetBook(string name)
+        InMememoryBook GetBook(string name)
         {
-            return new Book(name);
+            return new InMememoryBook(name);
         }
     }
 }

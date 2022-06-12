@@ -11,7 +11,7 @@ namespace GradebookTestUnit
         public void enheritance() 
         {
             //Arrange
-            Book book = new Book("Nombre");
+            InMememoryBook book = new InMememoryBook("Nombre");
             //Act
             var response = book.NamePretty();
             //Assert
@@ -23,7 +23,7 @@ namespace GradebookTestUnit
         public void TestStatistics()
         {
             // Arrange Section
-            var book = new Book("");
+            var book = new InMememoryBook("");
             book.AddGrade(58.1);
             book.AddGrade(80.0);
             book.AddGrade(60.5);
@@ -43,7 +43,7 @@ namespace GradebookTestUnit
         [Fact]
         public void NoGreaterThat100()
         {
-            var book = new Book("");
+            var book = new InMememoryBook("");
 
             try { book.AddGrade(101); }
             catch { }
@@ -54,7 +54,7 @@ namespace GradebookTestUnit
         [Fact]
         public void NoLowerThanZero()
         {
-            var book = new Book("");
+            var book = new InMememoryBook("");
             try { book.AddGrade(-0.01); }
             catch {}
             Assert.Empty(book.grades);
@@ -64,7 +64,7 @@ namespace GradebookTestUnit
         [Fact]
         public void AddGrade()
         {
-            var book = new Book("");
+            var book = new InMememoryBook("");
             book.AddGrade(85);
             Assert.NotEmpty(book.grades);
 

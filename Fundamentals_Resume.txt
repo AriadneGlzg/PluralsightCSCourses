@@ -26,7 +26,13 @@ por el padre --> public ClaseHija (type parm1, type param2...): base(param1)
 Todo en C# hereda de una clase llamada Object que esta en la libreria System, todas las clases y los typos
 
 
-Polimorfismo: hace que un objetos del mismo typo se comporten diferente. 
+Polimorfismo: hace que un objetos del mismo typo se comporten diferente. Con el polimorfismo, viene la cuestion
+de la herencia de clases y como un objeto hijo puede ser diferente de sus hermanos, o hacerle override a un miembro
+de clase 
+
+Interfaz: no contiene ninguna implementacion, simplemente describe los miembros que de haber.
+Una clase puede heredar de solo otra clase, pero puede heredar de 0 o muchas interfaces
+
 
 
 
