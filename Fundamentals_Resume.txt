@@ -33,6 +33,10 @@ de clase
 Interfaz: no contiene ninguna implementacion, simplemente describe los miembros que de haber.
 Una clase puede heredar de solo otra clase, pero puede heredar de 0 o muchas interfaces
 
+IDisposable es una interfaz cuyo unico metodo es Dispose() que es un metodo para liberar y resetear recursos, tales com
+manejar conexiones a base de datos, archivos etc, o liberar y limpiar memoria. La interfaz IDisposeble debe ser llamada
+explicitamente por el usuario y no por el garbagecollector.
+
 
 
 

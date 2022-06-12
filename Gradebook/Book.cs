@@ -84,13 +84,30 @@ namespace Gradebook // el namespace es el mismo que el del proyecto
             
             if (grade <= 100 && grade >= 0) 
             {
+                /*
                 var write=File.AppendText($"{path}{Name}2.txt"); //abrimos el archivo
                 write.WriteLine(grade); // escribimos en el
                 write.Close(); //cerramos el archivo
-                if (GradeAdded != null)
+                */
+                using (var write = File.AppendText($"{path}{Name}2.txt"))
                 {
-                    GradeAdded(this, EventArgs.Empty); //this de que es este objeto
+                    write.WriteLine(grade);
+                    /*El codigo de arriba es equivalente a este, la keyword tiene un overload
+                     que nos permite tener un espacio de codigo donde podemos escribir codigo y al
+                     final usa el metodo dispose para el parametro que se le manda.
+                     Crea un try catch finally statement para cerrar archivos bases de datos etc. Cuando 
+                     sales de las llaves del using el compilador te garantiza que va a llamar el metodo 
+                     dispose para el objeto que quieras disposear que se pasa como parametro en el using
+                    
+                     Este es util y se usa mucho cuando estamos usando archivos o cosas que necesiten ser cerradas.
+                     */
+
                 }
+
+                    if (GradeAdded != null)
+                    {
+                        GradeAdded(this, EventArgs.Empty); //this de que es este objeto
+                    }
             }
             else
             {
